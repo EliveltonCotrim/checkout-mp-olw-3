@@ -23,12 +23,12 @@ class Product extends Model
 
     public function brand(): BelongsTo
     {
-        return $this->belonsTo(Brand::class);
+        return $this->belongsTo(Brand::class);
     }
 
     public function category(): BelongsTo
     {
-        return $this->belonsTo(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function skus(): HasMany
