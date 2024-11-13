@@ -1,8 +1,8 @@
 <div @class([
     'flex items-center justify-between',
-    'border-t border-white border-opacity-10 pt-6 text-white' => $isLast ?? false,
+    'border-t border-white border-opacity-10 pt-6 text-white' =>
+        $isLast ?? false,
 ])>
     <dt class="text-primary-200">{{ $title }}</dt>
-    <dd class="text-secondary-300">R$ {{ $value }}</dd>
+    <dd class="text-secondary-300">R$ {{ $total }}</dd>
 </div>
-
