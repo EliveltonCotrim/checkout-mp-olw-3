@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\CheckoutStepsEnum;
+use App\Enums\PaymentMethodEnum;
+use App\Enums\PaymentStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,9 +25,10 @@ class Payment extends Model
         "ticket_url"
     ];
 
-    // protected $casts = [
-    //     "status" => CheckoutStepsEnum::class
-    // ];
+    protected $casts = [
+        "method" => PaymentMethodEnum::class,
+        "status" => PaymentStatusEnum::class
+    ];
 
     public function order(): BelongsTo
     {

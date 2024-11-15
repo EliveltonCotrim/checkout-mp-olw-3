@@ -60,10 +60,10 @@
             <x-input-label for="form-checkout__identificationNumber" value="CPF/CNPJ" />
             <div class="mt-1">
                 <x-text-input type="text" id="form-checkout__identificationNumber" name="card_holder_name"
-                    placeholder="Nome igual escrito no cartão" />
+                   />
 
                 <x-text-input type="hidden" id="form-checkout__cardholderEmail" name="card_holder_name"
-                    placeholder="Nome igual escrito no cartão" wire:model="user.email" />
+                    wire:model="user.email" />
             </div>
         </div>
 

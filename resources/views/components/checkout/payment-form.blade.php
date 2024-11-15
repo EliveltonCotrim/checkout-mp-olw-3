@@ -30,7 +30,15 @@
     <div class="mt-10">
         <x-section-title title="Pagamento" />
 
-        <div class="mt-4 w-full flex flex-col rounded-md border border-primary-200 p-4 divide-y divide-primary-200 divide-opacity-10">
+        {{-- Alert --}}
+        {{-- <div>
+            @error('payment')
+                <span id="payment-alert" class="text-sm text-red-600" x-data="{ visible: true }" x-init="setTimeout(() => visible = false, 5000)"
+                    x-show="visible">{{ $message }}</span>
+            @enderror
+        </div> --}}
+        <div
+            class="mt-4 w-full flex flex-col rounded-md border border-primary-200 p-4 divide-y divide-primary-200 divide-opacity-10">
 
             <label for="credit_card" class="flex flex-row gap-x-4 items-center py-4 cursor-pointer"
                 @click.prevent="$wire.method = 1; creditCardPayment()">

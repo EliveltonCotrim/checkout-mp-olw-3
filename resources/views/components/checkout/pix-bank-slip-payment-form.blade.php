@@ -8,6 +8,8 @@
                     class="h-10 block w-full rounded-md text-primary-200 bg-tertiary-800 border-gray-300 shadow-sm focus:border-primary-200 focus:ring-primary-200 sm:text-sm"
                     id="pix-cpf" type="text" placeholder="SEU CPF" wire:model.blur="user.cpf"
                     x-mask="999.999.999-99"></x-text-input>
+                <x-text-input class="hidden" id="form-checkout__email" name="email" type="text"
+                    wire:model="user.email" />
             </div>
 
             <div>

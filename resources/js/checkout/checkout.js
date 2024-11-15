@@ -76,7 +76,7 @@ export default () => ({
                         identificationType,
                     } = cardForm.getCardFormData();
 
-                    const reulst = this.$wire.creditCardPayment(
+                    const reulst = await this.$wire.creditCardPayment(
                         {
                             token,
                             issuer_id,
@@ -85,14 +85,19 @@ export default () => ({
                             installments: Number(installments),
                             description: "Descrição do produto",
                             payer: {
-                                email: this.$wire.$get("user.email"),
+                                email,
                                 identification: {
                                     type: identificationType,
-                                    number: identificationNumber,
+                                    number: this.$wire.$get('user.cpf'),
+                                    // number: identificationNumber,
                                 },
                             }
                         }
                     );
+
+                    cardForm.unmount();
+                    document.getElementById("form-checkout__cardholderEmail").value = this.$wire.$get('user.email');
+                    this.creditCardPayment();
                 },
             },
         });
