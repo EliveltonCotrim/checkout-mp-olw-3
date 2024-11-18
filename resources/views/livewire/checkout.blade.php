@@ -84,7 +84,7 @@
                     @elseif ($step === CheckoutStepsEnum::SHIPPING->value)
                         <x-checkout.shipping-form :user="$user" :address="$address" />
                     @elseif ($step === CheckoutStepsEnum::PAYMENT->value)
-                        <x-checkout.payment-form :user="$user" :address="$address" :cart="$cart"/>
+                        <x-checkout.payment-form :user="$user" :address="$address" :cart="$cart" />
                     @endif
                 </div>
             </div>

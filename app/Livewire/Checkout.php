@@ -6,10 +6,12 @@ use App\Enums\CheckoutStepsEnum;
 use App\Exceptions\PaymentException;
 use App\Livewire\Forms\AddressForm;
 use App\Livewire\Forms\UserForm;
+use App\Mail\OrderCreatedMail;
 use App\Services\CheckoutService;
 use App\Services\OrderService;
 use App\Services\UserService;
 use Http;
+use Illuminate\Support\Facades\Mail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -57,9 +59,9 @@ class Checkout extends Component
         try {
             $payment = $checkoutService->creditCardPayment($data);
             $user = $userService->store($this->user->all(), $this->address->all());
-            $order = $orderService->update( $this->cart['id'], $payment, $user, $this->address->all());
+            $order = $orderService->update($this->cart['id'], $payment, $user, $this->address->all());
 
-            dd($order->toArray());
+            Mail::to($user->email)->queue(new OrderCreatedMail($order));
 
             $this->alert("success", 'Pagamento aprovado!', [
                 'position' => 'top',
@@ -88,9 +90,12 @@ class Checkout extends Component
         try {
             $payment = $checkoutService->pixOrBankSlipPayment($data);
             $user = $userService->store($this->user->all(), $this->address->all());
-            $order = $orderService->update( $this->cart['id'], $payment, $user, $this->address->all());
+            $order = $orderService->update($this->cart['id'], $payment, $user, $this->address->all());
+
+            Mail::to($user->email)->queue(new OrderCreatedMail($order));
 
             dd($payment);
+
 
         } catch (PaymentException $e) {
             $this->alert("error", $e->getMessage(), [
