@@ -12,6 +12,7 @@ use App\Services\OrderService;
 use App\Services\UserService;
 use Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -63,10 +64,12 @@ class Checkout extends Component
 
             Mail::to($user->email)->queue(new OrderCreatedMail($order));
 
-            $this->alert("success", 'Pagamento aprovado!', [
-                'position' => 'top',
-                'timer' => 7000,
-            ]);
+            $this->responsePayment();
+
+            // $this->alert("success", 'Pagamento aprovado!', [
+            //     'position' => 'top',
+            //     'timer' => 7000,
+            // ]);
 
         } catch (PaymentException $e) {
             $this->alert("error", $e->getMessage(), [
@@ -94,7 +97,7 @@ class Checkout extends Component
 
             Mail::to($user->email)->queue(new OrderCreatedMail($order));
 
-            dd($payment);
+            $this->responsePayment();
 
 
         } catch (PaymentException $e) {
@@ -110,6 +113,19 @@ class Checkout extends Component
             ]);
         }
 
+    }
+
+    public function responsePayment()
+    {
+        $url = URL::temporarySignedRoute(
+            name: 'checkout.result',
+            expiration: 3600,
+            parameters: [
+                'order_id' => $this->cart['id']
+            ]
+        );
+
+        $this->flash('success', 'Pagamento aprovado! ', [], $url);
     }
 
     public function render()

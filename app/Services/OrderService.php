@@ -15,7 +15,7 @@ class OrderService
         $order->status = OrderStatusEnum::parse($payment->status);
         $order->user_id = $user->id;
         $order->save();
-        
+
         $order->payments()->create([
             "external_id" => $payment->id,
             "method" => PaymentMethodEnum::parse($payment->payment_type_id),

@@ -8,6 +8,7 @@
         "php": "^8.2",
         "jantinnerezo/livewire-alert": "^3.0",
         "laravel/framework": "^11.9",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravellegends/pt-br-validator": "^11.0",
         "livewire/livewire": "^3.5",
@@ -15,6 +16,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "laradumps/laradumps": "^3.0",
         "laravel/breeze": "^2.2",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
