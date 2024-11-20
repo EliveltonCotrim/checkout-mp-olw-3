@@ -39,12 +39,15 @@ class CheckoutService
                 if (auth()->check()) {
                     $query->orWhere('user_id', auth()->id());
                 }
+
             })->first();
 
-        if (!$cart && config('app.env') == 'local') {
-            $seed = new OrderSeeder();
-            $seed->run(session()->getId());
-            return $this->loadCart();
+        if (!$cart) {
+            if (config('app.env') == 'local' || config('app.env') == 'testing') {
+                $seed = new OrderSeeder();
+                $seed->run(session()->getId());
+                return $this->loadCart();
+            }
         }
 
         return $cart->toArray();

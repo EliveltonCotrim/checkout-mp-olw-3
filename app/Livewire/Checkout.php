@@ -29,9 +29,8 @@ class Checkout extends Component
     public function mount(CheckoutService $checkoutService): void
     {
         $this->cart = $checkoutService->loadCart();
-        $this->user->email = config("payment.mercadopago.buyer_nickname");
-        $this->user->cpf = "12345678909";
-
+        // $this->user->email = config("payment.mercadopago.buyer_nickname");
+        // $this->user->cpf = "12345678909";
     }
 
     public function findAddress()
@@ -55,7 +54,7 @@ class Checkout extends Component
     {
 
         // REmover depois
-        $data['payer']['identification']['number'] = str_replace(['.', '-'], '', $data['payer']['identification']['number']);
+        // $data['payer']['identification']['number'] = str_replace(['.', '-'], '', $data['payer']['identification']['number']);
 
         try {
             $payment = $checkoutService->creditCardPayment($data);
