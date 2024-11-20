@@ -20,7 +20,7 @@ class OrderFactory extends Factory
     {
         return [
             'session_id' => Str::uuid(),
-            'total' => $this->faker->randomFloat(2, 0, 9000),
+            'total' => $this->faker->randomFloat(2, 20, max: 50),
             'status' => $this->faker->randomElement([
                 OrderStatusEnum::CART,
                 OrderStatusEnum::PAID,

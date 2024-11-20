@@ -30,7 +30,8 @@
             <div class="col-span-4 sm:col-span-8 flex flex-col items-center justify-end gap-y-8 mt-8">
                 <img src="data:image/jpeg;base64,{{ $order->payments->last()->qr_code_64 }}" class="w-[200px]">
 
-                <x-primary-button x-clipboard="'{{ $order->payments->last()->qr_code }}'" wire:click="showSuccessAlert()">
+                <x-primary-button x-clipboard="'{{ $order->payments->last()->qr_code }}'"
+                    wire:click="showSuccessAlert()">
                     Copiar QR Code
                 </x-primary-button>
             </div>
@@ -38,7 +39,10 @@
 
         @if ($order->payments->last()->method == PaymentMethodEnum::BANK_SLIP)
             <div class="col-span-4 sm:col-span-8 flex flex-col items-center justify-end gap-y-8 mt-8">
-
+                <div class="w-full">
+                    <x-input-label>Código de barras</x-input-label>
+                    <x-input-with-copy class="mt-2" :value="$order->payments->last()->digitable_line"></x-input-with-copy>
+                </div>
                 <x-primary-button @click="window.open('{{ $order->payments->last()->ticket_url }}', '_blank')">
                     Baixar boleto
                 </x-primary-button>

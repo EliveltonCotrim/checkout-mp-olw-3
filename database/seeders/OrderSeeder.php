@@ -24,13 +24,13 @@ class OrderSeeder extends Seeder
         );
 
         $cart->each(function ($cart){
-            $sku = Sku::with('product')->inRandomOrder()->take(random_int(1, 15))->get();
+            $sku = Sku::with('product')->inRandomOrder()->take(random_int(1, 1))->get();
 
             $total = 0;
             $cart->total = 0;
 
             $sku->each(function ($item) use ($cart, $total){
-                $qtd = random_int(1, 3);
+                $qtd = random_int(1, 1);
 
                 $cart->skus()->attach([$item->id => [
                     'quantity' => $qtd,

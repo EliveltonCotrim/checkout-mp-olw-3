@@ -8,7 +8,7 @@ use App\Livewire\Result;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('checkout');
 });
 
 Route::get('/dashboard', function () {

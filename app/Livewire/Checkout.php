@@ -66,11 +66,6 @@ class Checkout extends Component
 
             $this->responsePayment();
 
-            // $this->alert("success", 'Pagamento aprovado!', [
-            //     'position' => 'top',
-            //     'timer' => 7000,
-            // ]);
-
         } catch (PaymentException $e) {
             $this->alert("error", $e->getMessage(), [
                 'position' => 'top',
@@ -91,7 +86,13 @@ class Checkout extends Component
         $data['payer']['email'] = $this->user->email;
 
         try {
-            $payment = $checkoutService->pixOrBankSlipPayment($data);
+
+            if($data['method'] === 'pix'){
+                $payment = $checkoutService->pixPayment($data);
+            }else{
+                $payment = $checkoutService->bankSlipPayment($data, $this->user->all(),$this->address->all());
+            }
+
             $user = $userService->store($this->user->all(), $this->address->all());
             $order = $orderService->update($this->cart['id'], $payment, $user, $this->address->all());
 
@@ -99,14 +100,12 @@ class Checkout extends Component
 
             $this->responsePayment();
 
-
         } catch (PaymentException $e) {
             $this->alert("error", $e->getMessage(), [
                 'position' => 'top',
                 'timer' => 5000,
             ]);
         } catch (\Exception $e) {
-
             $this->alert("error", $e->getMessage(), [
                 'position' => 'top',
                 'timer' => 5000,

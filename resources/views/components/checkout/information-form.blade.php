@@ -64,9 +64,9 @@
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <x-input-label for="number" value="Numero" />
+                <x-input-label for="number" value="Número" />
                 <div class="mt-1">
-                    <x-text-input type="text" id="number" name="number" placeholder="Numero"
+                    <x-text-input type="number" min="0" id="number" name="number" placeholder="Numero"
                         wire:model="address.number" />
                 </div>
 

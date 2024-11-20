@@ -13,10 +13,19 @@ use Illuminate\Support\Str;
 
 class CheckoutService
 {
+    protected $paymentClient;
+    protected $request_options;
+
     public function __construct()
     {
         MercadoPagoConfig::setAccessToken(config('payment.mercadopago.access_token'));
         MercadoPagoConfig::setRuntimeEnviroment(MercadoPagoConfig::LOCAL);
+
+        // Inicializar o paymentClient do SDK do Mercado Pago
+        $idempoency_key = Str::uuid();
+        $this->paymentClient = new PaymentClient();
+        $this->request_options = new RequestOptions();
+        $this->request_options->setCustomHeaders(["X-Idempotency-Key: {$idempoency_key}"]);
     }
 
     public function loadCart(): array
@@ -43,12 +52,12 @@ class CheckoutService
 
     public function creditCardPayment($data)
     {
-        $idempoency_key = Str::uuid();
-        $client = new PaymentClient();
-        $request_options = new RequestOptions();
-        $request_options->setCustomHeaders(["X-Idempotency-Key: {$idempoency_key}"]);
+        // $idempoency_key = Str::uuid();
+        // $client = new PaymentClient();
+        // $request_options = new RequestOptions();
+        // $request_options->setCustomHeaders(["X-Idempotency-Key: {$idempoency_key}"]);
 
-        $payment = $client->create([
+        $payment = $this->paymentClient->create([
             "transaction_amount" => (float) $data['transaction_amount'],
             "token" => $data['token'],
             "description" => $data['description'],
@@ -62,7 +71,7 @@ class CheckoutService
                     "number" => $data['payer']['identification']['number']
                 ]
             ]
-        ], $request_options);
+        ], $this->request_options);
 
         throw_if(
             !$payment->id || $payment->status === 'rejected',
@@ -73,21 +82,15 @@ class CheckoutService
         return $payment;
     }
 
-    public function pixOrBankSlipPayment($data)
+    public function pixPayment($data)
     {
-
-        $idempoency_key = Str::uuid();
-        $client = new PaymentClient();
-        $request_options = new RequestOptions();
-        $request_options->setCustomHeaders(["X-Idempotency-Key: {$idempoency_key}"]);
-
-        $payment = $client->create([
+        $payment = $this->paymentClient->create([
             "transaction_amount" => (float) $data['amount'],
             "payment_method_id" => $data['method'],
             "payer" => [
                 "email" => $data['payer']['email']
             ]
-        ], $request_options);
+        ], $this->request_options);
 
         throw_if(
             !$payment->id || $payment->status === 'rejected',
@@ -98,25 +101,46 @@ class CheckoutService
         return $payment;
     }
 
+    public function bankSlipPayment($data, $user, $address)
+    {
+        $payment = $this->paymentClient->create([
+            "transaction_amount" => (float) $data['amount'],
+            "payment_method_id" => $data['method'],
+            ...$this->buildPayer($user, $address)
+        ], $this->request_options);
+
+        throw_if(
+            !$payment->id || $payment->status === 'reject',
+            PaymentException::class,
+            $payment?->error?->message ?? 'Boleto rejeitado, verifique seus dados e tente novamente.'
+        );
+
+        return $payment;
+    }
+
     public function buildPayer($user, $address): array
     {
         $firstName = explode(' ', $user['name'])[0];
-        return array(
-            "email" => $user['email'],
-            "first_name" => $firstName,
-            "last_name" => Str::of($user['name'])->after($firstName)->trim(),
-            "identification" => array(
-                "type" => "CPF",
-                "number" => $user['cpf']
-            ),
-            "address" => array(
-                "zip_code" => $address['zipcode'],
-                "city" => $address['city'],
-                "street_name" => $address['address'],
-                "street_number" => $address['number'],
-                "neighborhood" => $address['district'],
-                "federal_unit" => $address['state']
-            )
+        $data = array(
+            "payer" => [
+                "email" => $user['email'],
+                "first_name" => $firstName,
+                "last_name" => Str::of($user['name'])->after($firstName)->trim()->value(),
+                "identification" => [
+                    "type" => "CPF",
+                    "number" => $user['cpf']
+                ],
+                "address" => [
+                    "zip_code" => $address['zipcode'],
+                    "city" => $address['city'],
+                    "street_name" => $address['address'],
+                    "street_number" => $address['number'],
+                    "neighborhood" => $address['district'],
+                    "federal_unit" => $address['state']
+                ]
+            ]
         );
+
+        return $data;
     }
 }

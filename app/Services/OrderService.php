@@ -25,6 +25,7 @@ class OrderService
             "qr_code_64" => $payment?->point_of_interaction?->transaction_data?->qr_code_base64 ?? null,
             "qr_code" => $payment?->point_of_interaction?->transaction_data?->qr_code ?? null,
             "ticket_url" => $payment?->point_of_interaction?->transaction_data?->ticket_url ?? $payment?->transaction_details?->external_resource_url,
+            "digitable_line" => $payment?->transaction_details?->digitable_line ?? null,
         ]);
 
         $order->shippings()->create([

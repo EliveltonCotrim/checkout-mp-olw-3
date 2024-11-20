@@ -22,7 +22,8 @@ class Payment extends Model
         "approved_at",
         "qr_code_64",
         "qr_code",
-        "ticket_url"
+        "ticket_url",
+        "digitable_line"
     ];
 
     protected $casts = [
