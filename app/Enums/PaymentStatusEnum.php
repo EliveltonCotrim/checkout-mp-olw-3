@@ -34,15 +34,15 @@ enum PaymentStatusEnum: int
     public function getStyles(): string
     {
         return match ($this) {
-            self::PENDING => 'px-2 py-0.5 text-xs rounded-full bg-yellow-100 text-yellow-800',
-            self::PAID => 'px-2 py-1 r text-xs rounded-full bg-green-100 text-green-800',
-            self::REJECTED => 'px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-800',
-            self::AUTHORIZED => 'px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800',
-            self::IN_PROCESS => 'px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800',
-            self::IN_MEDIATION => 'px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-800',
-            self::CHARGED_BACK => 'px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-800',
-            self::REFUNDED => 'px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-800',
-            self::CANCELLED => 'px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-800',
+            self::PENDING => 'px-2 py-0.5 text-xs rounded-md bg-yellow-100 text-yellow-800',
+            self::PAID => 'px-2 py-1 r text-xs rounded-md bg-green-100 text-green-800',
+            self::REJECTED => 'px-2 py-0.5 text-xs rounded-md bg-red-100 text-red-800',
+            self::AUTHORIZED => 'px-2 py-0.5 text-xs rounded-md bg-blue-100 text-blue-800',
+            self::IN_PROCESS => 'px-2 py-0.5 text-xs rounded-md bg-blue-100 text-blue-800',
+            self::IN_MEDIATION => 'px-2 py-0.5 text-xs rounded-md bg-blue-100 text-blue-800',
+            self::CHARGED_BACK => 'px-2 py-0.5 text-xs rounded-md bg-red-100 text-red-800',
+            self::REFUNDED => 'px-2 py-0.5 text-xs rounded-md bg-red-100 text-red-800',
+            self::CANCELLED => 'px-2 py-0.5 text-xs rounded-md bg-red-100 text-red-800',
             default => ''
         };
     }

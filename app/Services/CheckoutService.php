@@ -85,13 +85,13 @@ class CheckoutService
         return $payment;
     }
 
-    public function pixPayment($data)
+    public function pixPayment($data, $user)
     {
         $payment = $this->paymentClient->create([
             "transaction_amount" => (float) $data['amount'],
             "payment_method_id" => $data['method'],
             "payer" => [
-                "email" => $data['payer']['email']
+                "email" => $user['email']
             ]
         ], $this->request_options);
 

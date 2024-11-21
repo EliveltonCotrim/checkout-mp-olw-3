@@ -86,9 +86,9 @@ class Checkout extends Component
 
         try {
 
-            if($data['method'] === 'pix'){
-                $payment = $checkoutService->pixPayment($data);
-            }else{
+            if ($data['method'] === 'pix') {
+                $payment = $checkoutService->pixPayment($data, $this->user->all());
+            } else {
                 $payment = $checkoutService->bankSlipPayment($data, $this->user->all(),$this->address->all());
             }
 
@@ -105,6 +105,7 @@ class Checkout extends Component
                 'timer' => 5000,
             ]);
         } catch (\Exception $e) {
+
             $this->alert("error", $e->getMessage(), [
                 'position' => 'top',
                 'timer' => 5000,

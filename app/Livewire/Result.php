@@ -10,14 +10,14 @@ use Livewire\Component;
 class Result extends Component
 {
     use LivewireAlert;
-    
+
     #[Url]
     public $order_id = null;
     public $order = [];
 
     public function mount()
     {
-        $this->order = Order::with('payments', 'shippings')->findOrFail($this->order_id);
+        $this->order = Order::with('payments', 'shippings', 'skus')->findOrFail($this->order_id);
     }
 
     public function showSuccessAlert()

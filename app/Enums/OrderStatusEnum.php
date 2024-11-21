@@ -25,11 +25,11 @@ enum OrderStatusEnum: int
     public function getStyles(): string
     {
         return match ($this) {
-            self::CART => "px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-800",
-            self::PENDING => "px-2 py-0.5 text-xs rounded-full bg-yellow-100 text-yellow-800",
-            self::PAID => "px-2 py-1 text-xs rounded-full bg-green-100 text-green-800",
-            self::CANCELED => "px-2 py-0.5 text-xs rounded-full bg-red-100 text-red-800",
-            self::REJECTED => "px-2 py-0.5 text-xs rounded-full bg-purple-100 text-purple-800",
+            self::CART => "px-2 py-0.5 text-xs rounded-md bg-gray-100 text-gray-800",
+            self::PENDING => "px-2 py-0.5 text-xs rounded-md bg-yellow-100 text-yellow-800",
+            self::PAID => "px-2 py-1 text-xs rounded-md bg-green-100 text-green-800",
+            self::CANCELED => "px-2 py-0.5 text-xs rounded-md bg-red-100 text-red-800",
+            self::REJECTED => "px-2 py-0.5 text-xs rounded-md bg-purple-100 text-purple-800",
             default => "Style não encontrado",
         };
     }
