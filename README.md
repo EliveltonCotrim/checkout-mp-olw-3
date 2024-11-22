@@ -45,7 +45,7 @@ docker run --rm \
 
 Para integrar o projeto ao Mercado Pago, é necessário:
 
-- Criar uma conta no <a href="https://openlaravelweek.com.br/p1-v1/](https://www.mercadopago.com.br/developers/pt" target="_blank">Mercado Pago Developers</a>.
+- Criar uma conta no <a href="https://www.mercadopago.com.br/developers/pt" target="_blank">Mercado Pago Developers</a>.
 - Criar uma aplicação do tipo **checkoutTransparente**. 
 - Acessar o painel de desenvolvedores e obter as credenciais de teste (Public Key e Access Token).
 - Copiar essas credenciais para o arquivo .env do projeto, preenchendo os campos correspondentes.
